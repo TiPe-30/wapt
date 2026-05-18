@@ -51,7 +51,6 @@ int main(void){
     for (uint8_t i = 0; i < NB_MESURE_TEMP; i++){
         
     }
-    
 
     return EXIT_SUCCESS;
 }

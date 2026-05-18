@@ -1,5 +1,12 @@
 #!/bin/bash
 
+services=("nginx" "waptserver" "wapttasks")
+
+for service in "${services[@]}";
+  do 
+    systemctl stop "$service"
+  done
+
 # tous les dossiers qu'il faut sauvegarder
 doss_sauv=("/var/www/wapt/" "/var/www/wapt-host/" "/var/www/waptwua/" \
 "/var/www/wads/" "/opt/wapt/conf/" "/opt/wapt/waptserver/ssl/" "/var/www/*.json")
@@ -41,3 +48,9 @@ sudo -u postgres pg_dumpall | sudo tee "$fichier_postgresql" > /dev/null
 sha256sum "$fichier_postgresql" | cut -d ' ' -f1 | sudo tee checksums-"$fichier_postgresql".txt
 # on téléverse le fichiers 
 scp "$fichier_postgresql" "$fichier_kerberos" checksums-"$fichier_kerberos".txt checksums-"$fichier_postgresql".txt 
+
+
+for service in "${services[@]}";
+  do 
+    systemctl start "$service"
+  done
