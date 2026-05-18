@@ -6,8 +6,10 @@ doss_sauv=("/var/www/wapt/" "/var/www/wapt-host/" "/var/www/waptwua/" \
 
 for element in "${doss_sauv[@]}";
   do
+  
     # on créé une archive : https://axelstudios.github.io/7z/#!/
     fichier_archive="/srv${element%%/}-""$(date --rfc-3339 date)".7z
+
     if [[ -f "$fichier_archive" ]];
       then 
         rm "$fichier_archive"
