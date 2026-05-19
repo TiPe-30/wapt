@@ -6,7 +6,8 @@ ssh-keygen -t ed25519
 
 scp ~/.ssh/wapt.pub Administrateur@192.220.19.38:C:/Users/Administrateur/
 
-
-
 ssh-agent /bin/bash
 ssh-add /home/wapt/.ssh/wapt
+
+
+# côté serveur windows : 

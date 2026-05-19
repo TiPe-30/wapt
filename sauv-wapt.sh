@@ -2,30 +2,32 @@
 
 services=("nginx" "waptserver" "wapttasks")
 
-for service in "${services[@]}";
-  do 
-    systemctl stop "$service"
-  done
-
 # tous les dossiers qu'il faut sauvegarder
-doss_sauv=("/var/www/wapt/" "/var/www/wapt-host/" "/var/www/waptwua/" \
-"/var/www/wads/" "/opt/wapt/conf/" "/opt/wapt/waptserver/ssl/" "/var/www/*.json")
+doss_sauv=("/var/www/wapt" "/var/www/wapt-host" "/var/www/waptwua" \
+"/var/www/wads" "/opt/wapt/conf" "/opt/wapt/waptserver/ssl" /var/www/*.json)
 
 # on récupère la date pour dater la sauvegarde
 date_jour=$(date --rfc-3339 date)
 
 fichier_kerberos=/srv/"$date_jour"-http-krb5.keytab
+
+# sauvegarde du fichier postgresql
 fichier_postgresql=/srv/backup_wapt-"$date_jour".sql
+
+for service in "${services[@]}";
+  do 
+    systemctl stop "$service"
+  done
 
 for element in "${doss_sauv[@]}";
   do
   
     # on créé une archive : https://axelstudios.github.io/7z/#!/
-    fichier_archive="/srv${element%%/}-""$(date --rfc-3339 date)".7z
+    fichier_archive="/srv/${element##/}-""$(date --rfc-3339 date)".7z
 
     if [[ -f "$fichier_archive" ]];
       then 
-        # si une archive à déjà été faite dans la journée, on la supprime
+        # si une archive à déjà été faite dans la journée, on la supprime !
         rm "$fichier_archive"
       fi
 
@@ -54,3 +56,4 @@ for service in "${services[@]}";
   do 
     systemctl start "$service"
   done
+

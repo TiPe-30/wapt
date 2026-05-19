@@ -16,17 +16,30 @@ if [[ ! "$1" =~ ^[0-9]{4}(-[0-9]{2}){2}$ ]];
     exit 1
   fi
 
+date=$1
+
 fichier_restor=("/var/www/wapt/" "/var/www/wapt-host/" "/var/www/waptwua/" \
-"/var/www/wads/" "/opt/wapt/conf/" "/opt/wapt/waptserver/ssl/" "/var/www/*.json")
+"/var/www/wads/" "/opt/wapt/conf/" "/opt/wapt/waptserver/ssl/" /var/www/*.json)
 
 # on vérifie que tous les fichiers ont bien été téléversé sur le serveur
 for archive in "${fichier_restor[@]}";
   do
-    emplacement="/srv/$archive"
+    emplacement="/srv/${archive%%/}-""$date".7z
     if [[ ! -f "$emplacement" ]];
       then 
         echo "Le fichier $archive n'est pas disponible à l'emplacement : $emplacement"
         echo "Vous devez le rappatrier, ou alors le mettre dans le bon dossier"
         exit 1
       fi
+
+    # si un dossier est déjà présent on le supprime
+    if [[ -d "$archive" ]] || [[ -f "$archive" ]];
+      then 
+        rm "$archive"
+      fi
+
+    7z x "$archive" "$emplacement"
+
   done
+
+
