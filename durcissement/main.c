@@ -1,13 +1,13 @@
 #include <unistd.h>
-
-
+#include <stdlib.h>
+#include <stdio.h>
 
 
 
 int main(void)
 {
-    while (1){
-        fork();
-    }
-    return 0;
+
+    
+
+    return EXIT_SUCCESS;
 }
