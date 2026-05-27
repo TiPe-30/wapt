@@ -158,7 +158,7 @@ table inet filter {
 
   }
 
-  
-
 }
 PARE-FEU
+
+systemctl restart nftables.service
