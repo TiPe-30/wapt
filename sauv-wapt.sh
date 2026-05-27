@@ -6,6 +6,8 @@
 # une sauvegarde est lancé ; et les données sont envoyés sur un serveur de fichiers
 # de l'active directory : les informations présentes dans les variables devront
 # être changé au fur et à mesure.
+#
+# Le script doit être lancé avec la commande : ssh-agent /usr/local/bin/sauv-wapt.sh
 
 
 ############################################################################
@@ -112,6 +114,7 @@ function save_file {
   #/var/www/*.json
   # On sauvegarde et ajoute à l'arhive le json
   local error=0
+
   7z a -mx9 -mfb96 -ms1g -mmt3 /srv/"$archive_json" /var/www/*.json
   sha256sum /srv/"$archive_json" | cut -d ' ' -f1 | sudo tee /srv/checksums-"$archive_json".txt
 
@@ -136,7 +139,7 @@ function save_file {
 }
 
 ############################################################################
-#                             PROGRAMME
+#                          PROGRAMME PRINCIPAL
 ############################################################################
 
 # ssh-agent ./sauv-wapt.sh pour lancer le programme
@@ -151,7 +154,6 @@ for service in "${services[@]}";
   done
 
 # on sauvegarde 
-
 code_erreur=$(save_directory)
 
 if [[ $code_erreur -ne 0 ]];
