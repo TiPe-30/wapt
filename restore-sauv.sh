@@ -1,5 +1,9 @@
 #!/bin/bash
 
+############################################################################
+#                               VERIFICATIONS
+############################################################################
+
 if [[ "$*" -eq 1 ]];
   then 
     echo "Vous devez fournir la date de la sauvegarde que vous souhaitez restaurer !"
@@ -16,10 +20,25 @@ if [[ ! "$1" =~ ^[0-9]{4}(-[0-9]{2}){2}$ ]];
     exit 1
   fi
 
-date=$1
 
-fichier_restor=("/var/www/wapt/" "/var/www/wapt-host/" "/var/www/waptwua/" \
-"/var/www/wads/" "/opt/wapt/conf/" "/opt/wapt/waptserver/ssl/" /var/www/*.json)
+############################################################################
+#                                  VARIABLE
+############################################################################
+
+
+declare -r date=$1
+
+declare -A fichier_restor
+
+# initialisations de fichier_restor
+
+
+
+readonly fichier_restor
+
+############################################################################
+#                             PROGRAMME
+############################################################################
 
 # on vérifie que tous les fichiers ont bien été téléversé sur le serveur
 for archive in "${fichier_restor[@]}";
