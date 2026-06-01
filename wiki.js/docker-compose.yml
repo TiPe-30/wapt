@@ -1,0 +1,25 @@
+services:
+
+  db-wiki:
+    image: postgres:alpine
+    env_file: "./postgres/bd-postgres.conf"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - net-res
+  wiki:
+    build: ./wiki
+    depends_on:
+      - db-wiki
+    env_file: "./wiki/wiki-conf.env" 
+    ports:
+      - "8080:3000"
+      - "443:3443"
+    networks:
+    - net-res
+
+networks:
+  net-res:
+
+volumes:
+  db-data:
