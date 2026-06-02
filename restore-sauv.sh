@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# le script de restauration permet d'éviter que 
+
 ############################################################################
 #                               VERIFICATIONS
 ############################################################################
@@ -17,6 +19,30 @@ if [[ "$*" -eq 1 ]];
 if [[ ! "$1" =~ ^[0-9]{4}(-[0-9]{2}){2}$ ]];
   then 
     echo "Le format de la date de la restauration n'est pas la bonne !"
+    exit 1
+  fi
+
+# vérifier la plage des valeurs en question :
+
+annee=${date:0:4}
+month=${date:5:2}
+day=${date:8:2}
+
+if (( "$annee" < 2026 )) || (( "$annee" > $(date +%Y) ));
+  then
+    echo "L'année rentrée est invalide"
+    exit 1
+  fi 
+
+if (( "$month" < 1 )) || (( "$month" > 12 ));
+  then
+    echo "Le mois rentrée est invalide"
+    exit 1
+  fi
+
+if (( "$day" < 1 )) || (( "$day" > 31 ));
+  then
+    echo "Le jour rentrée est invalide"
     exit 1
   fi
 
