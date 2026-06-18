@@ -1,17 +1,17 @@
 services:
 
   db-wiki:
-    image: postgres:alpine
+    build: ./postgres
     env_file: "./postgres/bd-postgres.conf"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - wikijs_db-data:/var/lib/postgresql
     networks:
       - net-res
   wiki:
     build: ./wiki
     depends_on:
       - db-wiki
-    env_file: "./wiki/wiki-conf.env" 
+    env_file: "./wiki/wiki-conf.env"
     ports:
       - "8080:3000"
       - "443:3443"
@@ -23,3 +23,8 @@ networks:
 
 volumes:
   db-data:
+# Remplacer les lignes présentes dans volumes par celle ci : 
+#
+#wikijs_db-data:
+#    external: true
+#
