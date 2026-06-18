@@ -134,6 +134,8 @@ table inet filter {
 
 }
 PARE-FEU
+# Des soucis avec les variables peuvent apparaitre : les caractères $ suivis du nom de la variable
+# devront alors être rajoutée
 
 iconv -f UTF-8 -t ASCII//TRANSLIT /etc/nftables.conf -o /etc/nftables.conf
 systemctl restart nftables.service
