@@ -122,19 +122,14 @@ table inet filter {
 
 
   chain security {
-
-    # premier niveau qui permet de loger le traffic invalide
-
-    ct state invalid log prefix "Bad connexion from : " drop
-
-    # permet de détecter les paquets XMAS et les supprimer
-
-    tcp flags & (fin|syn|rst|psh|ack|urg) == fin|syn|rst|psh|ack|urg log prefix "Invalid XMAS flags detected : " drop
-
-    # si un paquet est null (sans flags tcp) on le drop
-
-    tcp flags == 0 log prefix "Invalid NULL flags detected : " drop
-
+    ct state invalid drop 
+    tcp flags & (fin|syn|rst|psh|ack|urg) == fin|syn|rst|psh|ack|urg log prefix "Null Packet detected" drop
+    tcp flags == 0 log prefix "Invalid Null Packet : " drop
+    meta length > 1000 tcp flags syn drop
+    ip protocol tcp ip frag-off & 0x1fff != 0 drop
+    # XMAS detect
+    tcp flags & (fin|syn|rst|psh|ack|urg) == fin|syn|rst|ack|urg log prefix "XMAS Detected : " drop
+    tcp flags & (fin|syn|rst|psh|ack|urg) == syn|rst log prefix "XMAS Detected : " drop
   }
 
 }
