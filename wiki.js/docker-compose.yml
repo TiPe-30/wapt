@@ -23,7 +23,7 @@ networks:
 
 volumes:
   db-data:
-# Remplacer les lignes présentes dans volumes par celle ci : 
+# Remplacer les lignes présentes dans volumes par celle ci en cas de restauration: 
 #
 #wikijs_db-data:
 #    external: true
